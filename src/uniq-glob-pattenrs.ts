@@ -19,19 +19,15 @@ export function uniqGlobPattenrs() {
     return loadAndUniq(editor, range);
 }
 
-function loadAndUniq(editor: vscode.TextEditor, range: vscode.Range) {
-    const lines = loadLines(editor, range);
-    return uniq(lines);
-}
-
-export function uniq(lines: string[]) {
-    return lines;
-}
-
 function extendRangeToFullLines(range: vscode.Range) {
     const extendedRange = new vscode.Range(
         range.start.line, 0, range.end.line + 1, 0);
     return extendedRange;
+}
+
+function loadAndUniq(editor: vscode.TextEditor, range: vscode.Range) {
+    const lines = loadLines(editor, range);
+    return uniq(lines);
 }
 
 function loadLines(editor: vscode.TextEditor, range: vscode.Range) {
@@ -40,4 +36,8 @@ function loadLines(editor: vscode.TextEditor, range: vscode.Range) {
     const lines = text.split(splitters);
     const nonemptyLines = lines.filter(word => word);
     return nonemptyLines;
+}
+
+export function uniq(lines: string[]) {
+    return lines;
 }
