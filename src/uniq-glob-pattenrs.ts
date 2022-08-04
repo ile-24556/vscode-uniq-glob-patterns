@@ -8,12 +8,21 @@ export function uniqGlobPattenrs() {
     const selection = editor.selection;
     const range = extendRangeToFullLines(selection);
     if (range.isEmpty) {
-        return undefined;
+        const start = new vscode.Position(0, 0);
+        const end = new vscode.Position(editor.document.lineCount, 0);
+        const wholeRange = new vscode.Range(start, end);
+        return uniq(editor, wholeRange);
     }
     if (range.isSingleLine) {
         return undefined;
     }
-    return undefined;
+    return uniq(editor, range);
+}
+
+function uniq(editor: vscode.TextEditor, range: vscode.Range) {
+    const lines = loadLines(editor, range);
+    // TODO: make lines unique
+    return lines;
 }
 
 function extendRangeToFullLines(range: vscode.Range) {
