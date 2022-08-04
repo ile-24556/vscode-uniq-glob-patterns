@@ -5,18 +5,10 @@ import { uniq } from '../../uniq-glob-pattenrs';
 suite('Extension Test Suite', () => {
     vscode.window.showInformationMessage('Start all tests.');
 
-    const knownCases = [
-        [
-            ['*.google.com', 'www.google.com',],
-            ['*.google.com',]
-        ],
-    ];
-
     test('Known values', () => {
+        const knownCases = require('./test-data.json');
         for (let pair of knownCases) {
-            const input = pair[0]!;
-            const correctAnswer = pair[1];
-            assert.deepStrictEqual(uniq(input), correctAnswer);
+            assert.deepStrictEqual(uniq(pair.input), pair.correctOutput);
         }
     });
 });
