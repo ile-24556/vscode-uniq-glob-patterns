@@ -28,28 +28,30 @@ so examles are hostname patterns.
 ### Example 1
 
 ```
-*.google.com
-www.google.com
+*.example.com
+www.example.com
 ```
 
-will produces
+produces
 
 ```
-*.google.com
+*.example.com
 ```
 
 ### Example 2
 
 ```
-clients1.google.com
-clients2.google.com
-clients3.google.com
-clients4.google.com
-clients[1-4].google.com
+www.example.com
+www1.example.com
+www2.example.com
+www3.example.com
+www4.example.com
+www[1-4].example.com
 ```
 
-will produecs
+produecs
 
 ```
-clients[1-4].google.com
+www.example.com
+www[1-4].example.com
 ```
