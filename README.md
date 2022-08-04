@@ -14,13 +14,13 @@ No prior sorting is required.
 ## Usage
 
 1.  Select lines.
-    If no line is selected, the entire text is covered.
+    If no line is selected, the entire text is taken.
 2.  Press Ctrl+Shift+P or F1 to show *Command Palett*.
 3.  Execute **Uniq Glob Pattenrs**.
 
 ## Examples
 
-Let's see unique-ing examples.
+Examples below show what are unique lines as glob patterns.
 
 I originally made this to reduce the number of `shExpMatch` in PAC files,
 so examles are hostname patterns.
