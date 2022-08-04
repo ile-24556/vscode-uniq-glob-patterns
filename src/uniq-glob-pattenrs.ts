@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 export function main() {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
-        return undefined;
+        return;
     }
     const selection = editor.selection;
     const range = extendRangeToFullLines(selection);
@@ -11,12 +11,12 @@ export function main() {
         const start = new vscode.Position(0, 0);
         const end = new vscode.Position(editor.document.lineCount, 0);
         const wholeRange = new vscode.Range(start, end);
-        return loadAndUniq(editor, wholeRange);
+        return uniqAndReplaceText(editor, wholeRange);
     }
     if (range.isSingleLine) {
-        return undefined;
+        return;
     }
-    return loadAndUniq(editor, range);
+    return uniqAndReplaceText(editor, range);
 }
 
 function extendRangeToFullLines(range: vscode.Range) {
@@ -25,9 +25,13 @@ function extendRangeToFullLines(range: vscode.Range) {
     return extendedRange;
 }
 
-function loadAndUniq(editor: vscode.TextEditor, range: vscode.Range) {
+function uniqAndReplaceText(editor: vscode.TextEditor, range: vscode.Range) {
     const lines = loadLines(editor, range);
-    return uniq(lines);
+    const uniqLines = uniq(lines);
+    if (!uniqLines) {
+        return;
+    }
+    dumpLines(editor, range, uniqLines);
 }
 
 function loadLines(editor: vscode.TextEditor, range: vscode.Range) {
@@ -85,4 +89,11 @@ function convertGlobToRegex(pattern: string) {
     pattern = pattern.replaceAll('*', '[^\/]*');
     pattern = pattern.replaceAll('[!', '[^');
     return pattern;
+}
+
+
+function dumpLines(editor: vscode.TextEditor, range: vscode.Range, lines: string[]) {
+    const newline = '\n';
+    const text = lines.join(newline) + newline;
+    editor.edit(editBuilder => editBuilder.replace(range, text));
 }
