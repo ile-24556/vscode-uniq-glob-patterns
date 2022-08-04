@@ -17,7 +17,7 @@
     "commands": [
       {
         "command": "uniq-glob-patterns.uniq",
-        "title": "Hello World"
+        "title": "Uniq Glob Patterns"
       }
     ]
   },
