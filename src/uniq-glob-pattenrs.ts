@@ -6,7 +6,7 @@ export function uniqGlobPattenrs() {
         return undefined;
     }
     const selection = editor.selection;
-    const range = normaliseRange(selection);
+    const range = extendRangeToFullLines(selection);
     if (range.isEmpty) {
         return undefined;
     }
@@ -16,10 +16,10 @@ export function uniqGlobPattenrs() {
     return undefined;
 }
 
-function normaliseRange(range: vscode.Range) {
-    const normalizedRange = new vscode.Range(
+function extendRangeToFullLines(range: vscode.Range) {
+    const extendedRange = new vscode.Range(
         range.start.line, 0, range.end.line + 1, 0);
-    return normalizedRange;
+    return extendedRange;
 }
 
 function loadLines(editor: vscode.TextEditor, range: vscode.Range) {
