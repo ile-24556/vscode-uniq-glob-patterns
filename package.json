@@ -1,7 +1,7 @@
 {
   "name": "uniq-glob-patterns",
   "displayName": "Uniq Glob Patterns",
-  "description": "Make line unique as glob patterns.",
+  "description": "Make lines unique as glob patterns.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.69.0"
@@ -9,6 +9,12 @@
   "categories": [
     "Other"
   ],
+  "publisher": "ile-24556",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ile-24556/vscode-uniq-glob-patterns"
+  },
   "activationEvents": [
     "onCommand:uniq-glob-patterns.uniq"
   ],
