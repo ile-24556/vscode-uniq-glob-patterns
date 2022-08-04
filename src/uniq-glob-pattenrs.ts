@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-export function uniqGlobPattenrs() {
+export function main() {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         return undefined;
