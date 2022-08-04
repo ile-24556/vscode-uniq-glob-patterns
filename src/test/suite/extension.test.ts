@@ -8,7 +8,6 @@ suite('Extension Test Suite', () => {
 
     test('Known values', () => {
         for (let pair of testData) {
-            console.log(pair);
             assert.deepStrictEqual(uniq(pair.input), pair.correctOutput);
         }
     });
