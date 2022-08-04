@@ -154,6 +154,28 @@
                 "www.example.com",
                 "clients[^123].example.com"
             ]
+        },
+        {
+            "testType": "mix",
+            "input": [
+                "clients4.example.com",
+                "clients3.example.com",
+                "www?.example.com",
+                "*.example.net",
+                "clients1.example.com",
+                "clients2.example.com",
+                "www.example.com",
+                "www.example.net",
+                "clients[123].example.com",
+                "www2.example.com"
+            ],
+            "correctOutput": [
+                "clients4.example.com",
+                "www?.example.com",
+                "*.example.net",
+                "www.example.com",
+                "clients[123].example.com",
+            ]
         }
     ]
 }
