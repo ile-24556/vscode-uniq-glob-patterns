@@ -39,21 +39,50 @@ function loadLines(editor: vscode.TextEditor, range: vscode.Range) {
 }
 
 export function uniq(lines: string[]) {
-    return lines;
+    const patterns: Pattern[] = [];
+    for (const line of lines) {
+        patterns.push(new Pattern(line));
+    }
+    const length = patterns.length;
+    for (let i = 0; i < length; i++) {
+        const a = patterns[i];
+        if (!a) {
+            return undefined;
+        }
+        for (let j = i + 1; j < length; j++) {
+            const b = patterns[j];
+            if (!b) {
+                return undefined;
+            }
+            if (a.regex.test(b.text)) {
+                b.isAlive = false;
+            } else if (b.regex.test(a.text)) {
+                a.isAlive = false;
+            };
+        }
+    }
+    const aliveLines: string[] = [];
+    for (const pattern of patterns) {
+        if (pattern.isAlive) {
+            aliveLines.push(pattern.text);
+        }
+    }
+    return aliveLines;
 }
 
 class Pattern {
     public regex: RegExp;
     public isAlive = true;
     constructor(
-        public pattern: string
+        public text: string
     ) {
-        this.regex = new RegExp(pattern);
+        this.regex = new RegExp(convertGlobToRegex(text));
     }
 };
 
 function convertGlobToRegex(pattern: string) {
-    pattern.replaceAll('?', '.');
-
+    pattern = pattern.replaceAll('?', '.');
+    pattern = pattern.replaceAll('*', '.*');
+    pattern = pattern.replaceAll('[!', '[^');
     return pattern;
 }
