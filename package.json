@@ -10,13 +10,13 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:uniq-glob-patterns.helloWorld"
+    "onCommand:uniq-glob-patterns.uniq"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "uniq-glob-patterns.helloWorld",
+        "command": "uniq-glob-patterns.uniq",
         "title": "Hello World"
       }
     ]
