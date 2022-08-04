@@ -11,17 +11,20 @@ export function uniqGlobPattenrs() {
         const start = new vscode.Position(0, 0);
         const end = new vscode.Position(editor.document.lineCount, 0);
         const wholeRange = new vscode.Range(start, end);
-        return uniq(editor, wholeRange);
+        return loadAndUniq(editor, wholeRange);
     }
     if (range.isSingleLine) {
         return undefined;
     }
-    return uniq(editor, range);
+    return loadAndUniq(editor, range);
 }
 
-function uniq(editor: vscode.TextEditor, range: vscode.Range) {
+function loadAndUniq(editor: vscode.TextEditor, range: vscode.Range) {
     const lines = loadLines(editor, range);
-    // TODO: make lines unique
+    return uniq(lines);
+}
+
+export function uniq(lines: string[]) {
     return lines;
 }
 
