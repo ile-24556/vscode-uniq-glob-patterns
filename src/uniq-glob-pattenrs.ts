@@ -6,13 +6,13 @@ export function main() {
         return;
     }
     const selection = editor.selection;
-    const range = extendRangeToFullLines(selection);
-    if (range.isEmpty) {
+    if (selection.isEmpty) {
         const start = new vscode.Position(0, 0);
         const end = new vscode.Position(editor.document.lineCount, 0);
         const wholeRange = new vscode.Range(start, end);
         return uniqAndReplaceText(editor, wholeRange);
     }
+    const range = extendRangeToFullLines(selection);
     if (range.isSingleLine) {
         return;
     }
