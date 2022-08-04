@@ -147,8 +147,12 @@
                 "www2.example.com"
             ],
             "correctOutput": [
+                "clients3.example.com",
                 "www?.example.com",
-                "clients4.example.com"
+                "clients1.example.com",
+                "clients2.example.com",
+                "www.example.com",
+                "clients[^123].example.com"
             ]
         }
     ]
