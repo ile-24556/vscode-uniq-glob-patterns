@@ -1,15 +1,22 @@
 import * as assert from 'assert';
-
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
 import * as vscode from 'vscode';
-// import * as myExtension from '../../extension';
+import { uniq } from '../../uniq-glob-pattenrs';
 
 suite('Extension Test Suite', () => {
-	vscode.window.showInformationMessage('Start all tests.');
+    vscode.window.showInformationMessage('Start all tests.');
 
-	test('Sample test', () => {
-		assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
-	});
+    const knownCases = [
+        [
+            ['*.google.com', 'www.google.com',],
+            ['*.google.com',]
+        ],
+    ];
+
+    test('Known values', () => {
+        for (let pair of knownCases) {
+            const input = pair[0]!;
+            const correctAnswer = pair[1];
+            assert.deepStrictEqual(uniq(input), correctAnswer);
+        }
+    });
 });
