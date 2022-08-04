@@ -150,6 +150,6 @@
                 "www?.example.com",
                 "clients4.example.com"
             ]
-        },
+        }
     ]
 }
