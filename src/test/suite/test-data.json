@@ -135,6 +135,22 @@
             ]
         },
         {
+            "testType": "slash",
+            "input": [
+                "www.example.*",
+                "www.example.com",
+                "www.example.com/dir",
+                "www.example.net*",
+                "www.example.net/dir",
+                "www.example.net/*"
+            ],
+            "correctOutput": [
+                "www.example.*",
+                "www.example.com/dir",
+                "www.example.net/*"
+            ]
+        },
+        {
             "testType": "mix",
             "input": [
                 "clients4.example.com",
