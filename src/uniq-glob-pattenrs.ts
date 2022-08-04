@@ -24,7 +24,7 @@ function normaliseRange(range: vscode.Range) {
 
 function loadLines(editor: vscode.TextEditor, range: vscode.Range) {
     const text = editor.document.getText(range);
-    const splitters = /[\n\r]/;
+    const splitters = /\n|\r\n|\r/;
     const lines = text.split(splitters);
     const nonemptyLines = lines.filter(word => word);
     return nonemptyLines;
