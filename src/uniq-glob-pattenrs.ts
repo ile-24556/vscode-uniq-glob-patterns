@@ -41,3 +41,19 @@ function loadLines(editor: vscode.TextEditor, range: vscode.Range) {
 export function uniq(lines: string[]) {
     return lines;
 }
+
+class Pattern {
+    public regex: RegExp;
+    public isAlive = true;
+    constructor(
+        public pattern: string
+    ) {
+        this.regex = new RegExp(pattern);
+    }
+};
+
+function convertGlobToRegex(pattern: string) {
+    pattern.replaceAll('?', '.');
+
+    return pattern;
+}
