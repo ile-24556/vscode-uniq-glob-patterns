@@ -2,5 +2,25 @@
     {
         "input": "*.com",
         "correctOutput": "^.*\\.com$"
+    },
+    {
+        "input": "?.com",
+        "correctOutput": "^.\\.com$"
+    },
+    {
+        "input": "[a-z].com",
+        "correctOutput": "^[a-z]\\.com$"
+    },
+    {
+        "input": "[!a-z].com",
+        "correctOutput": "^[^a-z]\\.com$"
+    },
+    {
+        "input": "[^a-z].com",
+        "correctOutput": "^[^a-z]\\.com$"
+    },
+    {
+        "input": "[^a-z].com",
+        "correctOutput": "^[^a-z]\\.com$"
     }
 ]
