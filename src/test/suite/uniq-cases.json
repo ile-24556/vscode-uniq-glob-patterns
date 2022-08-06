@@ -269,5 +269,15 @@
             "[^.txt",
             "[!.*"
         ]
+    },
+    {
+        "description": "special characters",
+        "input": [
+            "^].txt",
+            "^].*"
+        ],
+        "correctOutput": [
+            "^].*"
+        ]
     }
 ]
