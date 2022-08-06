@@ -289,5 +289,25 @@
         "correctOutput": [
             "xx^].*"
         ]
+    },
+    {
+        "description": "special characters",
+        "input": [
+            "xx^yy.txt",
+            "xx^yy.*"
+        ],
+        "correctOutput": [
+            "xx^yy.*"
+        ]
+    },
+    {
+        "description": "special characters",
+        "input": [
+            "xx[^yy.txt",
+            "xx[^yy.*"
+        ],
+        "correctOutput": [
+            "xx[^yy.*"
+        ]
     }
 ]
