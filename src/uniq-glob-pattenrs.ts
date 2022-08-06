@@ -89,7 +89,12 @@ export function convertGlobToRegex(pattern: string) {
     pattern = pattern.replaceAll('?', '.');
     pattern = pattern.replaceAll('*', '.*');
     pattern = pattern.replaceAll('[!', '[^');
-    pattern = pattern.replaceAll(/(^[^\[]*\[)(\].*?\])/g, function () {
+    // escape imidiate closing bracket: Bash takes as a literal
+    pattern = pattern.replaceAll(/(^[^[]*\[)(\].*?\])/g, function () {
+        return arguments[1] + "\\" + arguments[2];
+    });
+    // excape stray opening bracket
+    pattern = pattern.replaceAll(/^([^[\]]*)(\[[^[\]]*)$/g, function () {
         return arguments[1] + "\\" + arguments[2];
     });
     return '^' + pattern + '$';
