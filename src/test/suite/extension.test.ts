@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 import { uniq, convertGlobToRegex } from '../../uniq-glob-pattenrs';
-import { testData } from './test-data.json';
+import { testData } from './uniq-cases.json';
 
 suite('Extension Test Suite', () => {
     vscode.window.showInformationMessage('Start all tests.');
