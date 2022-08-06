@@ -102,8 +102,8 @@ export function convertGlobToRegex(pattern: string) {
         return arguments[1] + "\\" + arguments[2];
     });
     // escape stray circumflex
-    pattern = pattern.replaceAll(/(\^[^\]]+)$/g, function () {
-        return "\\" + arguments[1];
+    pattern = pattern.replaceAll(/(^\^|[^[]\^|\^[^\]]+$)/g, function () {
+        return arguments[1].replace('^', '\\^');
     });
     return '^' + pattern + '$';
 }
