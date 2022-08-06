@@ -221,5 +221,53 @@
         "correctOutput": [
             "[][]"
         ]
+    },
+    {
+        "description": "special characters",
+        "input": [
+            "$.txt",
+            "^.txt",
+            "^.*"
+        ],
+        "correctOutput": [
+            "$.txt",
+            "^.*"
+        ]
+    },
+    {
+        "description": "special characters",
+        "input": [
+            "$.txt",
+            "^.txt",
+            "$.*"
+        ],
+        "correctOutput": [
+            "^.txt",
+            "$.*"
+        ]
+    },
+    {
+        "description": "special characters",
+        "input": [
+            "[!.txt",
+            "[^.txt",
+            "[^.*"
+        ],
+        "correctOutput": [
+            "[!.txt",
+            "[^.*"
+        ]
+    },
+    {
+        "description": "special characters",
+        "input": [
+            "[!.txt",
+            "[^.txt",
+            "[!.*"
+        ],
+        "correctOutput": [
+            "[^.txt",
+            "[!.*"
+        ]
     }
 ]
