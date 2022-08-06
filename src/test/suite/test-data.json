@@ -192,6 +192,17 @@
                 "www.example.com",
                 "clients[123].example.com"
             ]
+        },
+        {
+            "description": "mix",
+            "input": [
+                "an.example.com",
+                "an-example.com"
+            ],
+            "correctOutput": [
+                "an.example.com",
+                "an-example.com"
+            ]
         }
     ]
 }
