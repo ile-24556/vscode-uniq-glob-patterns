@@ -26,5 +26,9 @@
     {
         "input": "[]].com",
         "correctOutput": "^[\\]]\\.com$"
+    },
+    {
+        "input": "[[].com",
+        "correctOutput": "^[\\[]\\.com$"
     }
 ]
