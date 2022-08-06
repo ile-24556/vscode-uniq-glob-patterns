@@ -1,0 +1,8 @@
+{
+    "testData": [
+        {
+            "input": "*.com",
+            "correctOutput": ".*\\.com"
+        }
+    ]
+}
