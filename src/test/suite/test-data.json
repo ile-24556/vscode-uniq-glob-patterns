@@ -1,7 +1,7 @@
 {
     "testData": [
         {
-            "testType": "asterisk",
+            "description": "asterisk",
             "input": [
                 "*.example.com",
                 "www.example.com"
@@ -11,7 +11,7 @@
             ]
         },
         {
-            "testType": "asterisk",
+            "description": "asterisk",
             "input": [
                 "*.example.com",
                 "*.com",
@@ -22,7 +22,7 @@
             ]
         },
         {
-            "testType": "asterisk",
+            "description": "asterisk",
             "input": [
                 "www*.example.com",
                 "www.example.com"
@@ -32,7 +32,7 @@
             ]
         },
         {
-            "testType": "exclamation mark",
+            "description": "exclamation mark",
             "input": [
                 "www.example.com",
                 "www?.example.com",
@@ -44,7 +44,7 @@
             ]
         },
         {
-            "testType": "range",
+            "description": "range",
             "input": [
                 "clients1.example.com",
                 "clients2.example.com",
@@ -57,7 +57,7 @@
             ]
         },
         {
-            "testType": "range",
+            "description": "range",
             "input": [
                 "clients1.example.com",
                 "clients2.example.com",
@@ -71,7 +71,7 @@
             ]
         },
         {
-            "testType": "complementation",
+            "description": "complementation",
             "input": [
                 "clients1.example.com",
                 "clients2.example.com",
@@ -87,7 +87,7 @@
             ]
         },
         {
-            "testType": "complementation",
+            "description": "complementation",
             "input": [
                 "clients1.example.com",
                 "clients2.example.com",
@@ -103,7 +103,7 @@
             ]
         },
         {
-            "testType": "complementation",
+            "description": "complementation",
             "input": [
                 "clients1.example.com",
                 "clients2.example.com",
@@ -119,7 +119,7 @@
             ]
         },
         {
-            "testType": "complementation",
+            "description": "complementation",
             "input": [
                 "clients1.example.com",
                 "clients2.example.com",
@@ -135,7 +135,7 @@
             ]
         },
         {
-            "testType": "slash",
+            "description": "slash",
             "input": [
                 "www.example.*",
                 "www.example.com",
@@ -151,7 +151,7 @@
             ]
         },
         {
-            "testType": "mix",
+            "description": "mix",
             "input": [
                 "clients4.example.com",
                 "clients3.example.com",
@@ -172,7 +172,7 @@
             ]
         },
         {
-            "testType": "mix",
+            "description": "mix",
             "input": [
                 "clients4.example.com",
                 "clients3.example.com",
