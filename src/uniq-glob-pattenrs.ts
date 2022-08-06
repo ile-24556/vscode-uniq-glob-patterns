@@ -89,12 +89,11 @@ export function convertGlobToRegex(pattern: string) {
     pattern = pattern.replaceAll('?', '.');
     pattern = pattern.replaceAll('*', '.*');
     pattern = pattern.replaceAll('[!', '[^');
-    pattern = pattern.replaceAll(/(\[.*)([\[\]])(.*\])/g, function () {
-        return arguments[1] + "\\" + arguments[2] + arguments[3];
+    pattern = pattern.replaceAll(/(^[^\[]*\[)(\].*?\])/g, function () {
+        return arguments[1] + "\\" + arguments[2];
     });
     return '^' + pattern + '$';
 }
-
 
 function dumpLines(editor: vscode.TextEditor, range: vscode.Range, lines: string[]) {
     const newline = '\n';
