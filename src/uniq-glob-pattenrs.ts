@@ -89,7 +89,9 @@ export function convertGlobToRegex(pattern: string) {
     pattern = pattern.replaceAll('?', '.');
     pattern = pattern.replaceAll('*', '.*');
     pattern = pattern.replaceAll('[!', '[^');
-    pattern = pattern.replaceAll('[]', '[\\]');
+    pattern = pattern.replaceAll(/(\[.*)([\[\]])(.*\])/g, function () {
+        return arguments[1] + "\\" + arguments[2] + arguments[3];
+    });
     return '^' + pattern + '$';
 }
 
