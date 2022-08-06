@@ -279,5 +279,15 @@
         "correctOutput": [
             "^].*"
         ]
+    },
+    {
+        "description": "special characters",
+        "input": [
+            "xx^].txt",
+            "xx^].*"
+        ],
+        "correctOutput": [
+            "xx^].*"
+        ]
     }
 ]
