@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
-import { uniq } from '../../uniq-glob-pattenrs';
+import { uniq, convertGlobToRegex } from '../../uniq-glob-pattenrs';
 import { testData } from './test-data.json';
 
 suite('Extension Test Suite', () => {

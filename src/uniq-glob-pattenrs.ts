@@ -84,7 +84,7 @@ class Pattern {
     }
 };
 
-function convertGlobToRegex(pattern: string) {
+export function convertGlobToRegex(pattern: string) {
     pattern = pattern.replaceAll('?', '[^/]');
     pattern = pattern.replaceAll('*', '[^/]*');
     pattern = pattern.replaceAll('[!', '[^');
