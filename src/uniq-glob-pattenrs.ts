@@ -85,6 +85,7 @@ class Pattern {
 };
 
 export function convertGlobToRegex(pattern: string) {
+    pattern = pattern.replaceAll('\\', '\\\\');
     pattern = pattern.replaceAll('.', '\\.');
     pattern = pattern.replaceAll('$', '\\$');
     pattern = pattern.replaceAll('?', '.');
@@ -93,7 +94,7 @@ export function convertGlobToRegex(pattern: string) {
     pattern = pattern.replaceAll(/\[!(.*?\])/g, function () {
         return "[^" + arguments[1];
     });
-    // escape imidiate closing bracket: Bash takes as a literal
+    // escape imidiate closing bracket: Bash takes them as literala
     pattern = pattern.replaceAll(/(^[^[]*\[)(\].*?\])/g, function () {
         return arguments[1] + "\\" + arguments[2];
     });
