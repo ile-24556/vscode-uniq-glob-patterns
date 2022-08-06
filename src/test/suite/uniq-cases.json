@@ -144,9 +144,7 @@
             "www.example.net/*"
         ],
         "correctOutput": [
-            "www.example.*",
-            "www.example.com/dir",
-            "www.example.net/*"
+            "www.example.*"
         ]
     },
     {
