@@ -200,5 +200,15 @@
             "an.example.com",
             "an-example.com"
         ]
+    },
+    {
+        "description": "brackets",
+        "input": [
+            "[]",
+            "[[]]"
+        ],
+        "correctOutput": [
+            "[[]]"
+        ]
     }
 ]
