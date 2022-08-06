@@ -309,5 +309,44 @@
         "correctOutput": [
             "xx[^yy.*"
         ]
+    },
+    {
+        "description": "range",
+        "input": [
+            "[]-]",
+            "]",
+            "-",
+            ""
+        ],
+        "correctOutput": [
+            "[]-]",
+            ""
+        ]
+    },
+    {
+        "description": "range",
+        "input": [
+            "[--0]",
+            "-",
+            ".",
+            "0",
+            "/",
+            "1"
+        ],
+        "correctOutput": [
+            "[--0]",
+            "1"
+        ]
+    },
+    {
+        "description": "range",
+        "input": [
+            "[[\\]",
+            "\\",
+            "["
+        ],
+        "correctOutput": [
+            "[[\\]"
+        ]
     }
 ]
