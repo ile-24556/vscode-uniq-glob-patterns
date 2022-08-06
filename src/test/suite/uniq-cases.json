@@ -210,5 +210,16 @@
         "correctOutput": [
             "[[]]"
         ]
+    },
+    {
+        "description": "brackets",
+        "input": [
+            "]",
+            "[",
+            "[][]"
+        ],
+        "correctOutput": [
+            "[][]"
+        ]
     }
 ]
