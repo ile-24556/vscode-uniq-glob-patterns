@@ -110,8 +110,16 @@ export function convertGlobToRegex(pattern: string) {
     return '^' + pattern + '$';
 }
 
+const REGEX_SPECIAL_CHARS = '()[]{}?*+-|^$\\.&~#';
+function escapeRegexSpecialChar(char: string) {
+    if (REGEX_SPECIAL_CHARS.includes(char)) {
+        char = '\\' + char;
+    }
+    return char;
+}
+
+const NEWLINE = '\n';
 function dumpLines(editor: vscode.TextEditor, range: vscode.Range, lines: string[]) {
-    const newline = '\n';
-    const text = lines.join(newline) + newline;
+    const text = lines.join(NEWLINE) + NEWLINE;
     editor.edit(editBuilder => editBuilder.replace(range, text));
 }
