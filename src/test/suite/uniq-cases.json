@@ -527,11 +527,21 @@
     {
         "description": "priority",
         "input": [
-            "x[ijk*-]y[0-9]z",
-            "x*y[0-9]z"
+            "x[ab?]y[ab]z",
+            "x?y[ab]z"
         ],
         "correctOutput": [
-            "x*y[0-9]z"
+            "x?y[ab]z"
+        ]
+    },
+    {
+        "description": "priority",
+        "input": [
+            "x[ab*]y[ab]z",
+            "x*y[ab]z"
+        ],
+        "correctOutput": [
+            "x*y[ab]z"
         ]
     }
 ]
