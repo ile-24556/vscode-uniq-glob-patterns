@@ -60,14 +60,18 @@ export function uniq(lines: string[]) {
                 continue;
             }
             // '*' always defeat '?'
-            if (a.exclamationExtendedIntoAsterisk === b.text) {
+            if (a.excIntoAst === b.text) {
+                a.isAlive = false;
+            }
+            // '*' always defeat '[...]' including '[*]'
+            else if (a.rangeIntoAst === b.text) {
                 a.isAlive = false;
             }
             // '?' always defeat '[...]'
-            else if (a.rangeExtendedIntoExclamation === b.text) {
+            else if (a.rangeIntoExc === b.text) {
                 a.isAlive = false;
             }
-            else if (b.rangeExtendedIntoExclamation === a.text) {
+            else if (b.rangeIntoExc === a.text) {
                 b.isAlive = false;
             }
             // Finally, regex tests
@@ -88,25 +92,28 @@ export function uniq(lines: string[]) {
 }
 
 class Pattern {
-    public rangeExtendedIntoExclamation: string = '';
-    public exclamationExtendedIntoAsterisk: string;
+    public rangeIntoExc: string;
+    public rangeIntoAst: string;
+    public excIntoAst: string;
     public regex: RegExp;
     public isAlive = true;
     constructor(
         public text: string
     ) {
-        this.exclamationExtendedIntoAsterisk = text.replaceAll('?', '*');
+        this.excIntoAst = text.replaceAll('?', '*');
         const results = translateGlobIntoRegex(text);
         this.regex = new RegExp(results.regex);
-        this.rangeExtendedIntoExclamation = results.sanitized;
+        this.rangeIntoExc = results.rangeExc;
+        this.rangeIntoAst = results.rangeAst;
     }
 };
 
 export function translateGlobIntoRegex(pattern: string): {
-    regex: string; sanitized: string;
+    regex: string; rangeExc: string; rangeAst: string;
 } {
     let regexPattern = '';
-    let patternWithoutRange = '';
+    let rangeIntoExclamation = '';
+    let rangeIntoAsterisk = '';
     let i = 0;
     const length = pattern.length;
     let j = length + 1;
@@ -122,11 +129,13 @@ export function translateGlobIntoRegex(pattern: string): {
         i++;
         if (char === '*') {
             regexPattern += '.*?';
-            patternWithoutRange += '.*?';
+            rangeIntoExclamation += '.*?';
+            rangeIntoAsterisk += '.*?';
         }
         else if (char === '?') {
             regexPattern += '.';
-            patternWithoutRange += '.';
+            rangeIntoExclamation += '.';
+            rangeIntoAsterisk += '.';
         }
         else if (char === '[') {
             // Opening bracket found
@@ -149,7 +158,8 @@ export function translateGlobIntoRegex(pattern: string): {
             if (j >= length) {
                 // Not closed: literal
                 regexPattern += '\\[';
-                patternWithoutRange += '\\[';
+                rangeIntoExclamation += '\\[';
+                rangeIntoAsterisk += '\\[';
             }
             else {
                 bracketsContent = pattern.slice(i, j);
@@ -160,7 +170,8 @@ export function translateGlobIntoRegex(pattern: string): {
                     bracketsContent = escapeRegexSpecialChar(bracketsContent);
                 }
                 regexPattern += '[' + bracketsContent + ']';
-                patternWithoutRange += '?';
+                rangeIntoExclamation += '?';
+                rangeIntoAsterisk += '*';
                 i = j + 1;
             }
         }
@@ -169,7 +180,11 @@ export function translateGlobIntoRegex(pattern: string): {
         }
     }
     regexPattern = '^' + regexPattern + '$';
-    return { regex: regexPattern, sanitized: patternWithoutRange };
+    return {
+        regex: regexPattern,
+        rangeExc: rangeIntoExclamation,
+        rangeAst: rangeIntoAsterisk
+    };
 }
 
 const REGEX_SPECIAL_CHARS = '()[]{}?*+|^$\\.&~#';
