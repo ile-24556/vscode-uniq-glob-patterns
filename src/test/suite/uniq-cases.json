@@ -204,6 +204,8 @@
     {
         "description": "brackets",
         "input": [
+            "[",
+            "]",
             "[]",
             "[[]]"
         ],
