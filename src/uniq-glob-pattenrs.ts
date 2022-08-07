@@ -59,9 +59,19 @@ export function uniq(lines: string[]) {
             if (!b) {
                 continue;
             }
-            if (a.asterisked === b.text) {
+            // '*' always defeat '?'
+            if (a.exclamationExtendedIntoAsterisk === b.text) {
                 a.isAlive = false;
-            } else if (a.regex.test(b.text)) {
+            }
+            // '?' always defeat [...]
+            else if (a.rangeExtendedIntoExclamation === b.text) {
+                a.isAlive = false;
+            }
+            else if (b.rangeExtendedIntoExclamation === a.text) {
+                b.isAlive = false;
+            }
+            // regex tests
+            else if (a.regex.test(b.text)) {
                 b.isAlive = false;
             } else if (b.regex.test(a.text)) {
                 a.isAlive = false;
@@ -78,17 +88,17 @@ export function uniq(lines: string[]) {
 }
 
 class Pattern {
-    public exclamationed: string = '';
-    public asterisked: string;
+    public rangeExtendedIntoExclamation: string = '';
+    public exclamationExtendedIntoAsterisk: string;
     public regex: RegExp;
     public isAlive = true;
     constructor(
         public text: string
     ) {
-        this.asterisked = text.replaceAll('?', '*');
+        this.exclamationExtendedIntoAsterisk = text.replaceAll('?', '*');
         const results = translateGlobIntoRegex(text);
         this.regex = new RegExp(results.regex);
-        this.exclamationed = results.sanitized;
+        this.rangeExtendedIntoExclamation = results.sanitized;
     }
 };
 
