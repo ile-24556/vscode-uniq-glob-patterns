@@ -52,14 +52,26 @@ export function uniq(lines: string[]) {
     for (let i = 0; i < length; i++) {
         const a = patterns[i];
         if (!a) {
-            return undefined;
+            continue;
         }
         for (let j = i + 1; j < length; j++) {
             const b = patterns[j];
             if (!b) {
-                return undefined;
+                continue;
             }
-            if (a.regex.test(b.text)) {
+            // '*' always defeat '?'
+            if (a.exclamationExtendedIntoAsterisk === b.text) {
+                a.isAlive = false;
+            }
+            // '?' always defeat [...]
+            else if (a.rangeExtendedIntoExclamation === b.text) {
+                a.isAlive = false;
+            }
+            else if (b.rangeExtendedIntoExclamation === a.text) {
+                b.isAlive = false;
+            }
+            // regex tests
+            else if (a.regex.test(b.text)) {
                 b.isAlive = false;
             } else if (b.regex.test(a.text)) {
                 a.isAlive = false;
@@ -76,46 +88,101 @@ export function uniq(lines: string[]) {
 }
 
 class Pattern {
+    public rangeExtendedIntoExclamation: string = '';
+    public exclamationExtendedIntoAsterisk: string;
     public regex: RegExp;
     public isAlive = true;
     constructor(
         public text: string
     ) {
-        this.regex = new RegExp(convertGlobToRegex(text));
+        this.exclamationExtendedIntoAsterisk = text.replaceAll('?', '*');
+        const results = translateGlobIntoRegex(text);
+        this.regex = new RegExp(results.regex);
+        this.rangeExtendedIntoExclamation = results.sanitized;
     }
 };
 
-export function convertGlobToRegex(pattern: string) {
-    pattern = pattern.replaceAll('\\', '\\\\');
-    pattern = pattern.replaceAll('.', '\\.');
-    pattern = pattern.replaceAll('$', '\\$');
-    pattern = pattern.replaceAll('?', '.');
-    pattern = pattern.replaceAll('*', '.*');
-    // convert complementation style
-    pattern = pattern.replaceAll(/\[!(.*?\])/g, function () {
-        return "[^" + arguments[1];
-    });
-    // escape imidiate closing bracket: Bash takes them as literala
-    pattern = pattern.replaceAll(/(^[^[]*\[)(\].*?\])/g, function () {
-        return arguments[1] + "\\" + arguments[2];
-    });
-    // excape stray opening bracket
-    pattern = pattern.replaceAll(/^([^[\]]*)(\[[^[\]]*)$/g, function () {
-        return arguments[1] + "\\" + arguments[2];
-    });
-    // escape stray circumflex
-    pattern = pattern.replaceAll(/(^\^|[^[]\^|\^[^\]]+$)/g, function () {
-        return arguments[1].replace('^', '\\^');
-    });
-    return '^' + pattern + '$';
+export function translateGlobIntoRegex(pattern: string): {
+    regex: string; sanitized: string;
+} {
+    let regexPattern = '';
+    let patternWithoutRange = '';
+    let i = 0;
+    const length = pattern.length;
+    let j = length + 1;
+    let bracketsContent = '';
+    let isNegation = false;
+
+    while (i < length) {
+        isNegation = false;
+        const char = pattern[i];
+        if (char === undefined) {
+            break;
+        }
+        i++;
+        if (char === '*') {
+            regexPattern += '.*?';
+            patternWithoutRange += '.*?';
+        }
+        else if (char === '?') {
+            regexPattern += '.';
+            patternWithoutRange += '.';
+        }
+        else if (char === '[') {
+            // Opening bracket found
+            j = i;
+
+            if (j < length && (pattern[j] === '!' || pattern[j] === '^')) {
+                isNegation = true;
+                j++;
+            }
+            if (j < length && pattern[j] === ']') {
+                // Imidiately closeed after opening or negation:
+                // No content in the brackets
+                j++;
+            }
+            // Search for closing bracket
+            while (j < length && pattern[j] !== ']') {
+                j++;
+            }
+
+            if (j >= length) {
+                // Not closed: literal
+                regexPattern += '\\[';
+                patternWithoutRange += '\\[';
+            }
+            else {
+                bracketsContent = pattern.slice(i, j);
+                if (isNegation) {
+                    bracketsContent = '^' + escapeRegexSpecialChar(bracketsContent.slice(1));
+                }
+                else {
+                    bracketsContent = escapeRegexSpecialChar(bracketsContent);
+                }
+                regexPattern += '[' + bracketsContent + ']';
+                patternWithoutRange += '?';
+                i = j + 1;
+            }
+        }
+        else {
+            regexPattern += escapeRegexSpecialChar(char);
+        }
+    }
+    regexPattern = '^' + regexPattern + '$';
+    return { regex: regexPattern, sanitized: patternWithoutRange };
 }
 
-const REGEX_SPECIAL_CHARS = '()[]{}?*+-|^$\\.&~#';
-function escapeRegexSpecialChar(char: string) {
-    if (REGEX_SPECIAL_CHARS.includes(char)) {
-        char = '\\' + char;
+const REGEX_SPECIAL_CHARS = '()[]{}?*+|^$\\.&~#';
+function escapeRegexSpecialChar(text: string) {
+    let result = '';
+    for (const char of text) {
+        if (REGEX_SPECIAL_CHARS.includes(char)) {
+            result += '\\' + char;
+        } else {
+            result += char;
+        }
     }
-    return char;
+    return result;
 }
 
 const NEWLINE = '\n';

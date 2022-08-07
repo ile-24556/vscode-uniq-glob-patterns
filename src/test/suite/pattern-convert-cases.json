@@ -1,7 +1,7 @@
 [
     {
         "input": "*.com",
-        "correctOutput": "^.*\\.com$"
+        "correctOutput": "^.*?\\.com$"
     },
     {
         "input": "?.com",
@@ -29,14 +29,22 @@
     },
     {
         "input": "[[].com",
-        "correctOutput": "^[[]\\.com$"
+        "correctOutput": "^[\\[]\\.com$"
     },
     {
         "input": "[[]].com",
-        "correctOutput": "^[[]]\\.com$"
+        "correctOutput": "^[\\[]\\]\\.com$"
     },
     {
         "input": "[][]",
-        "correctOutput": "^[\\][]$"
+        "correctOutput": "^[\\]\\[]$"
+    },
+    {
+        "input": "[!]",
+        "correctOutput": "^\\[!\\]$"
+    },
+    {
+        "input": "[^]",
+        "correctOutput": "^\\[\\^\\]$"
     }
 ]

@@ -204,10 +204,14 @@
     {
         "description": "brackets",
         "input": [
+            "[",
+            "]",
             "[]",
             "[[]]"
         ],
         "correctOutput": [
+            "[",
+            "]",
             "[[]]"
         ]
     },
@@ -350,7 +354,18 @@
         ]
     },
     {
-        "description": "range",
+        "description": "null range-like literal",
+        "input": [
+            "[]",
+            ""
+        ],
+        "correctOutput": [
+            "[]",
+            ""
+        ]
+    },
+    {
+        "description": "null range-like literal",
         "input": [
             "[!]",
             "a"
@@ -361,14 +376,112 @@
         ]
     },
     {
-        "description": "range",
+        "description": "null range-like literal",
         "input": [
             "[^]",
             "a"
         ],
         "correctOutput": [
-            "[!]",
+            "[^]",
             "a"
+        ]
+    },
+    {
+        "description": "negation",
+        "input": [
+            "!",
+            "[!a]"
+        ],
+        "correctOutput": [
+            "[!a]"
+        ]
+    },
+    {
+        "description": "negation",
+        "input": [
+            "^",
+            "[^a]"
+        ],
+        "correctOutput": [
+            "[^a]"
+        ]
+    },
+    {
+        "description": "range",
+        "input": [
+            "]",
+            "[]]"
+        ],
+        "correctOutput": [
+            "[]]"
+        ]
+    },
+    {
+        "description": "range",
+        "input": [
+            "[",
+            "[[]"
+        ],
+        "correctOutput": [
+            "[[]"
+        ]
+    },
+    {
+        "description": "range",
+        "input": [
+            "[",
+            "]",
+            "a",
+            "!",
+            "[![]"
+        ],
+        "correctOutput": [
+            "[",
+            "[![]"
+        ]
+    },
+    {
+        "description": "range",
+        "input": [
+            "[",
+            "]",
+            "a",
+            "!",
+            "[!]]"
+        ],
+        "correctOutput": [
+            "]",
+            "[!]]"
+        ]
+    },
+    {
+        "description": "priority",
+        "input": [
+            "*",
+            "?"
+        ],
+        "correctOutput": [
+            "*"
+        ]
+    },
+    {
+        "description": "priority",
+        "input": [
+            "?",
+            "*"
+        ],
+        "correctOutput": [
+            "*"
+        ]
+    },
+    {
+        "description": "priority",
+        "input": [
+            "?",
+            "[?]"
+        ],
+        "correctOutput": [
+            "?"
         ]
     }
 ]
