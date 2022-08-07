@@ -38,5 +38,13 @@
     {
         "input": "[][]",
         "correctOutput": "^[\\]\\[]$"
+    },
+    {
+        "input": "[!]",
+        "correctOutput": "^\\[!\\]$"
+    },
+    {
+        "input": "[^]",
+        "correctOutput": "^\\[\\^\\]$"
     }
 ]
