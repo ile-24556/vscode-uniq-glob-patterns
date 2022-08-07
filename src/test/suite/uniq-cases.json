@@ -449,5 +449,25 @@
             "]",
             "[!]]"
         ]
+    },
+    {
+        "description": "priority",
+        "input": [
+            "*",
+            "?"
+        ],
+        "correctOutput": [
+            "*"
+        ]
+    },
+    {
+        "description": "priority",
+        "input": [
+            "?",
+            "*"
+        ],
+        "correctOutput": [
+            "*"
+        ]
     }
 ]
