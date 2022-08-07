@@ -86,12 +86,17 @@ class Pattern {
         public text: string
     ) {
         this.asterisked = text.replaceAll('?', '*');
-        this.regex = new RegExp(translateGlobIntoRegex(text));
+        const results = translateGlobIntoRegex(text);
+        this.regex = new RegExp(results.regex);
+        this.exclamationed = results.sanitized;
     }
 };
 
-export function translateGlobIntoRegex(pattern: string): string {
-    let result = '';
+export function translateGlobIntoRegex(pattern: string): {
+    regex: string; sanitized: string;
+} {
+    let regexPattern = '';
+    let patternWithoutRange = '';
     let i = 0;
     const length = pattern.length;
     let j = length + 1;
@@ -106,10 +111,12 @@ export function translateGlobIntoRegex(pattern: string): string {
         }
         i++;
         if (char === '*') {
-            result += '.*?';
+            regexPattern += '.*?';
+            patternWithoutRange += '.*?';
         }
         else if (char === '?') {
-            result += '.';
+            regexPattern += '.';
+            patternWithoutRange += '.';
         }
         else if (char === '[') {
             // Opening bracket found
@@ -131,7 +138,8 @@ export function translateGlobIntoRegex(pattern: string): string {
 
             if (j >= length) {
                 // Not closed: literal
-                result += '\\[';
+                regexPattern += '\\[';
+                patternWithoutRange += '\\[';
             }
             else {
                 bracketsContent = pattern.slice(i, j);
@@ -141,15 +149,17 @@ export function translateGlobIntoRegex(pattern: string): string {
                 else {
                     bracketsContent = escapeRegexSpecialChar(bracketsContent);
                 }
-                result += '[' + bracketsContent + ']';
+                regexPattern += '[' + bracketsContent + ']';
+                patternWithoutRange += '?';
                 i = j + 1;
             }
         }
         else {
-            result += escapeRegexSpecialChar(char);
+            regexPattern += escapeRegexSpecialChar(char);
         }
     }
-    return '^' + result + '$';
+    regexPattern = '^' + regexPattern + '$';
+    return { regex: regexPattern, sanitized: patternWithoutRange };
 }
 
 const REGEX_SPECIAL_CHARS = '()[]{}?*+|^$\\.&~#';
