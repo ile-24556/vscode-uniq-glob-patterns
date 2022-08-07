@@ -129,13 +129,13 @@ export function translateGlobIntoRegex(pattern: string): {
         i++;
         if (char === '*') {
             regexPattern += '.*?';
-            rangeIntoExclamation += '.*?';
-            rangeIntoAsterisk += '.*?';
+            rangeIntoExclamation += char;
+            rangeIntoAsterisk += char;
         }
         else if (char === '?') {
             regexPattern += '.';
-            rangeIntoExclamation += '.';
-            rangeIntoAsterisk += '.';
+            rangeIntoExclamation += char;
+            rangeIntoAsterisk += char;
         }
         else if (char === '[') {
             // Opening bracket found
@@ -158,8 +158,8 @@ export function translateGlobIntoRegex(pattern: string): {
             if (j >= length) {
                 // Not closed: literal
                 regexPattern += '\\[';
-                rangeIntoExclamation += '\\[';
-                rangeIntoAsterisk += '\\[';
+                rangeIntoExclamation += char;
+                rangeIntoAsterisk += char;
             }
             else {
                 bracketsContent = pattern.slice(i, j);
@@ -176,7 +176,10 @@ export function translateGlobIntoRegex(pattern: string): {
             }
         }
         else {
-            regexPattern += escapeRegexSpecialChar(char);
+            const escapedChar = escapeRegexSpecialChar(char);
+            regexPattern += escapedChar;
+            rangeIntoExclamation += char;
+            rangeIntoAsterisk += char;
         }
     }
     regexPattern = '^' + regexPattern + '$';
