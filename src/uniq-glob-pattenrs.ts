@@ -76,11 +76,14 @@ export function uniq(lines: string[]) {
 }
 
 class Pattern {
+    public exclamationed: string = '';
+    public asterisked: string;
     public regex: RegExp;
     public isAlive = true;
     constructor(
         public text: string
     ) {
+        this.asterisked = text.replaceAll('?', '*');
         this.regex = new RegExp(translateGlobIntoRegex(text));
     }
 };
