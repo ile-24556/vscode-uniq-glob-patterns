@@ -348,5 +348,15 @@
         "correctOutput": [
             "[[\\]"
         ]
+    },
+    {
+        "description": "range",
+        "input": [
+            "[!]",
+            "[!]"
+        ],
+        "correctOutput": [
+            "[!]"
+        ]
     }
 ]
