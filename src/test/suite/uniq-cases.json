@@ -403,7 +403,7 @@
         ]
     },
     {
-        "description": "negation",
+        "description": "range",
         "input": [
             "]",
             "[]]"
@@ -413,13 +413,41 @@
         ]
     },
     {
-        "description": "negation",
+        "description": "range",
         "input": [
             "[",
             "[[]"
         ],
         "correctOutput": [
             "[[]"
+        ]
+    },
+    {
+        "description": "range",
+        "input": [
+            "[",
+            "]",
+            "a",
+            "!",
+            "[![]"
+        ],
+        "correctOutput": [
+            "[",
+            "[![]"
+        ]
+    },
+    {
+        "description": "range",
+        "input": [
+            "[",
+            "]",
+            "a",
+            "!",
+            "[!]]"
+        ],
+        "correctOutput": [
+            "]",
+            "[![]"
         ]
     }
 ]
