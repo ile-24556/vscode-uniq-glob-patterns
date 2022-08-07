@@ -1,4 +1,3 @@
-import { strict } from 'assert';
 import * as vscode from 'vscode';
 
 export function main() {
@@ -92,6 +91,9 @@ export function translateGlobIntoRegex(pattern: string): string {
     const length = pattern.length;
     while (i < length) {
         const char = pattern[i];
+        if (char === undefined) {
+            break;
+        }
         i++;
         if (char === '*') {
             result += '.*?';
@@ -100,28 +102,34 @@ export function translateGlobIntoRegex(pattern: string): string {
             result += '.';
         }
         else if (char === '[') {
-            // opening bracket found found
+            // Opening bracket found found
             let j = i + 1;
 
-            if (j < length && pattern[j] === '!') {
-                // negation not counted as content of brackets
+            if (j < length && (pattern[j] === '!' || pattern[j] === '^')) {
+                // Negation not counted as content of brackets
                 j++;
             }
             if (j < length && pattern[j] === ']') {
-                // imidiate close after opening or exclamations:
-                // no content in the brackets
+                // Imidiately closeed after opening or negation:
+                // No content in the brackets
+                j++;
             }
+            // Search for closing bracket
             while (j < length && pattern[j] !== ']') {
                 j++;
             }
 
             if (j >= length) {
-                // not closed: literal
+                // Not closed: literal
                 result += '\\[';
             }
             else {
-
+                result += '[' + pattern.slice(i, j) + ']';
+                i = j + 1;
             }
+        }
+        else {
+            result += escapeRegexSpecialChar(char);
         }
     }
     return result;
