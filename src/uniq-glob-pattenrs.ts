@@ -89,7 +89,12 @@ export function translateGlobIntoRegex(pattern: string): string {
     let result = '';
     let i = 0;
     const length = pattern.length;
+    let j = length + 1;
+    let bracketsContent = '';
+    let isNegation = false;
+
     while (i < length) {
+        isNegation = false;
         const char = pattern[i];
         if (char === undefined) {
             break;
@@ -102,11 +107,11 @@ export function translateGlobIntoRegex(pattern: string): string {
             result += '.';
         }
         else if (char === '[') {
-            // Opening bracket found found
-            let j = i + 1;
+            // Opening bracket found
+            j = i;
 
             if (j < length && (pattern[j] === '!' || pattern[j] === '^')) {
-                // Negation not counted as content of brackets
+                isNegation = true;
                 j++;
             }
             if (j < length && pattern[j] === ']') {
@@ -124,7 +129,14 @@ export function translateGlobIntoRegex(pattern: string): string {
                 result += '\\[';
             }
             else {
-                result += '[' + pattern.slice(i, j) + ']';
+                bracketsContent = pattern.slice(i, j);
+                if (isNegation) {
+                    bracketsContent = '^' + escapeRegexSpecialChar(bracketsContent.slice(1));
+                }
+                else {
+                    bracketsContent = escapeRegexSpecialChar(bracketsContent);
+                }
+                result += '[' + bracketsContent + ']';
                 i = j + 1;
             }
         }
@@ -132,15 +144,20 @@ export function translateGlobIntoRegex(pattern: string): string {
             result += escapeRegexSpecialChar(char);
         }
     }
-    return result;
+    return '^' + result + '$';
 }
 
-const REGEX_SPECIAL_CHARS = '()[]{}?*+-|^$\\.&~#';
-function escapeRegexSpecialChar(char: string) {
-    if (REGEX_SPECIAL_CHARS.includes(char)) {
-        char = '\\' + char;
+const REGEX_SPECIAL_CHARS = '()[]{}?*+|^$\\.&~#';
+function escapeRegexSpecialChar(text: string) {
+    let result = '';
+    for (const char of text) {
+        if (REGEX_SPECIAL_CHARS.includes(char)) {
+            result += '\\' + char;
+        } else {
+            result += char;
+        }
     }
-    return char;
+    return result;
 }
 
 const NEWLINE = '\n';
