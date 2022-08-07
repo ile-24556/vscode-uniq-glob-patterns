@@ -350,7 +350,18 @@
         ]
     },
     {
-        "description": "range",
+        "description": "null range-like literal",
+        "input": [
+            "[]",
+            ""
+        ],
+        "correctOutput": [
+            "[]",
+            ""
+        ]
+    },
+    {
+        "description": "null range-like literal",
         "input": [
             "[!]",
             "a"
@@ -361,7 +372,7 @@
         ]
     },
     {
-        "description": "range",
+        "description": "null range-like literal",
         "input": [
             "[^]",
             "a"
@@ -369,6 +380,26 @@
         "correctOutput": [
             "[^]",
             "a"
+        ]
+    },
+    {
+        "description": "negation",
+        "input": [
+            "!",
+            "[!a]"
+        ],
+        "correctOutput": [
+            "[!a]"
+        ]
+    },
+    {
+        "description": "negation",
+        "input": [
+            "^",
+            "[^a]"
+        ],
+        "correctOutput": [
+            "[^a]"
         ]
     }
 ]
