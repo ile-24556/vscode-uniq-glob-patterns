@@ -43,8 +43,9 @@ function loadLines(editor: vscode.TextEditor, range: vscode.Range) {
 }
 
 export function uniq(lines: string[]) {
+    const uniqLines = Array.from(new Set(lines));
     const patterns: Pattern[] = [];
-    for (const line of lines) {
+    for (const line of uniqLines) {
         patterns.push(new Pattern(line));
     }
     const length = patterns.length;
