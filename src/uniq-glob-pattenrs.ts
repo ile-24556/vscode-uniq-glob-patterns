@@ -63,14 +63,14 @@ export function uniq(lines: string[]) {
             if (a.exclamationExtendedIntoAsterisk === b.text) {
                 a.isAlive = false;
             }
-            // '?' always defeat [...]
+            // '?' always defeat '[...]'
             else if (a.rangeExtendedIntoExclamation === b.text) {
                 a.isAlive = false;
             }
             else if (b.rangeExtendedIntoExclamation === a.text) {
                 b.isAlive = false;
             }
-            // regex tests
+            // Finally, regex tests
             else if (a.regex.test(b.text)) {
                 b.isAlive = false;
             } else if (b.regex.test(a.text)) {
