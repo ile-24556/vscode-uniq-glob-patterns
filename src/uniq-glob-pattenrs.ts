@@ -131,7 +131,7 @@ export function translateGlobIntoRegex(pattern: string): string {
             else {
                 bracketsContent = pattern.slice(i, j);
                 if (isNegation) {
-                    bracketsContent = '^' + bracketsContent.slice(1);
+                    bracketsContent = '^' + escapeRegexSpecialChar(bracketsContent.slice(1));
                 }
                 else {
                     bracketsContent = escapeRegexSpecialChar(bracketsContent);
