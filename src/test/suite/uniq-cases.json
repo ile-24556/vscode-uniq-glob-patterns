@@ -353,10 +353,22 @@
         "description": "range",
         "input": [
             "[!]",
-            "[!]"
+            "a"
         ],
         "correctOutput": [
-            "[!]"
+            "[!]",
+            "a"
+        ]
+    },
+    {
+        "description": "range",
+        "input": [
+            "[^]",
+            "a"
+        ],
+        "correctOutput": [
+            "[!]",
+            "a"
         ]
     }
 ]
