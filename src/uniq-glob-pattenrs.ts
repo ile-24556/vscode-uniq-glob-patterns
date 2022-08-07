@@ -52,14 +52,16 @@ export function uniq(lines: string[]) {
     for (let i = 0; i < length; i++) {
         const a = patterns[i];
         if (!a) {
-            return undefined;
+            continue;
         }
         for (let j = i + 1; j < length; j++) {
             const b = patterns[j];
             if (!b) {
-                return undefined;
+                continue;
             }
-            if (a.regex.test(b.text)) {
+            if (a.asterisked === b.text) {
+                a.isAlive = false;
+            } else if (a.regex.test(b.text)) {
                 b.isAlive = false;
             } else if (b.regex.test(a.text)) {
                 a.isAlive = false;
