@@ -9,7 +9,7 @@ suite('Extension Test Suite', () => {
 
     test('Test convertGlobToRegex() w/ Known values', () => {
         for (let pair of patternConvertCases) {
-            assert.deepStrictEqual(convertGlobToRegex(pair.input), pair.correctOutput);
+            assert.strictEqual(convertGlobToRegex(pair.input), pair.correctOutput);
         }
     });
 
