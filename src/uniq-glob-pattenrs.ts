@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as nanomatch from 'nanomatch';
 
 export function main() {
     const editor = vscode.window.activeTextEditor;
@@ -58,9 +59,9 @@ export function uniq(lines: string[]) {
             if (!b) {
                 return undefined;
             }
-            if (a.regex.test(b.text)) {
+            if (a.matcher(b.text)) {
                 b.isAlive = false;
-            } else if (b.regex.test(a.text)) {
+            } else if (b.matcher(a.text)) {
                 a.isAlive = false;
             };
         }
@@ -75,12 +76,12 @@ export function uniq(lines: string[]) {
 }
 
 class Pattern {
-    public regex: RegExp;
+    public matcher: CallableFunction;
     public isAlive = true;
     constructor(
         public text: string
     ) {
-        this.regex = new RegExp(convertGlobToRegex(text));
+        this.matcher = nanomatch.matcher(text);
     }
 };
 
