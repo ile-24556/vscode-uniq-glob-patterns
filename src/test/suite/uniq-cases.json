@@ -401,5 +401,25 @@
         "correctOutput": [
             "[^a]"
         ]
+    },
+    {
+        "description": "negation",
+        "input": [
+            "]",
+            "[]]"
+        ],
+        "correctOutput": [
+            "[]]"
+        ]
+    },
+    {
+        "description": "negation",
+        "input": [
+            "[",
+            "[[]"
+        ],
+        "correctOutput": [
+            "[[]"
+        ]
     }
 ]
