@@ -210,6 +210,8 @@
             "[[]]"
         ],
         "correctOutput": [
+            "[",
+            "]",
             "[[]]"
         ]
     },
@@ -470,6 +472,16 @@
         ],
         "correctOutput": [
             "*"
+        ]
+    },
+    {
+        "description": "priority",
+        "input": [
+            "?",
+            "[?]"
+        ],
+        "correctOutput": [
+            "?"
         ]
     }
 ]
