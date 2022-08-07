@@ -503,5 +503,15 @@
         "correctOutput": [
             "*"
         ]
+    },
+    {
+        "description": "priority",
+        "input": [
+            "[*]aa?bb",
+            "*aa?bb"
+        ],
+        "correctOutput": [
+            "*aa?bb"
+        ]
     }
 ]
