@@ -1,3 +1,4 @@
+import { strict } from 'assert';
 import * as vscode from 'vscode';
 
 export function main() {
@@ -81,33 +82,49 @@ class Pattern {
     constructor(
         public text: string
     ) {
-        this.regex = new RegExp(convertGlobToRegex(text));
+        this.regex = new RegExp(translateGlobIntoRegex(text));
     }
 };
 
-export function convertGlobToRegex(pattern: string) {
-    pattern = pattern.replaceAll('\\', '\\\\');
-    pattern = pattern.replaceAll('.', '\\.');
-    pattern = pattern.replaceAll('$', '\\$');
-    pattern = pattern.replaceAll('?', '.');
-    pattern = pattern.replaceAll('*', '.*');
-    // convert complementation style
-    pattern = pattern.replaceAll(/\[!(.*?\])/g, function () {
-        return "[^" + arguments[1];
-    });
-    // escape imidiate closing bracket: Bash takes them as literala
-    pattern = pattern.replaceAll(/(^[^[]*\[)(\].*?\])/g, function () {
-        return arguments[1] + "\\" + arguments[2];
-    });
-    // excape stray opening bracket
-    pattern = pattern.replaceAll(/^([^[\]]*)(\[[^[\]]*)$/g, function () {
-        return arguments[1] + "\\" + arguments[2];
-    });
-    // escape stray circumflex
-    pattern = pattern.replaceAll(/(^\^|[^[]\^|\^[^\]]+$)/g, function () {
-        return arguments[1].replace('^', '\\^');
-    });
-    return '^' + pattern + '$';
+export function translateGlobIntoRegex(pattern: string): string {
+    let result = '';
+    let i = 0;
+    const length = pattern.length;
+    while (i < length) {
+        const char = pattern[i];
+        i++;
+        if (char === '*') {
+            result += '.*?';
+        }
+        else if (char === '?') {
+            result += '.';
+        }
+        else if (char === '[') {
+            // opening bracket found found
+            let j = i + 1;
+
+            if (j < length && pattern[j] === '!') {
+                // negation not counted as content of brackets
+                j++;
+            }
+            if (j < length && pattern[j] === ']') {
+                // imidiate close after opening or exclamations:
+                // no content in the brackets
+            }
+            while (j < length && pattern[j] !== ']') {
+                j++;
+            }
+
+            if (j >= length) {
+                // not closed: literal
+                result += '\\[';
+            }
+            else {
+
+            }
+        }
+    }
+    return result;
 }
 
 const REGEX_SPECIAL_CHARS = '()[]{}?*+-|^$\\.&~#';

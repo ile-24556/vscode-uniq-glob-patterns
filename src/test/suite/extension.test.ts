@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
-import { uniq, convertGlobToRegex } from '../../uniq-glob-pattenrs';
+import { uniq, translateGlobIntoRegex } from '../../uniq-glob-pattenrs';
 import * as patternConvertCases from './pattern-convert-cases.json';
 import * as uniqCases from './uniq-cases.json';
 
@@ -9,7 +9,7 @@ suite('Extension Test Suite', () => {
 
     test('Test convertGlobToRegex() w/ Known values', () => {
         for (let pair of patternConvertCases) {
-            assert.strictEqual(convertGlobToRegex(pair.input), pair.correctOutput);
+            assert.strictEqual(translateGlobIntoRegex(pair.input), pair.correctOutput);
         }
     });
 
