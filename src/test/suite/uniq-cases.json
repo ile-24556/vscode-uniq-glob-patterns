@@ -523,5 +523,15 @@
         "correctOutput": [
             "*aa?bb"
         ]
+    },
+    {
+        "description": "priority",
+        "input": [
+            "x[ijk*-]y[0-9]z",
+            "x*y[0-9]z"
+        ],
+        "correctOutput": [
+            "x*y[0-9]z"
+        ]
     }
 ]
